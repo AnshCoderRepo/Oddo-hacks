@@ -3,9 +3,10 @@ import React from 'react'
 function Home() {
   return (
     <div>
-      Home pages
+      Hello 
     </div>
   )
 }
 
 export default Home
+
