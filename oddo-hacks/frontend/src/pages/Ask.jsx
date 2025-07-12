@@ -3,7 +3,7 @@ import { AskQuestion } from '../components/questions/AskQuestion';
 
 export const AskPage = () => {
   return (
-    <div className="ask-page">
+      <div className="ask-page">
       <AskQuestion />
     </div>
   );
