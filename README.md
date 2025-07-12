@@ -1,7 +1,8 @@
 # StackIt - Programming Q&A Platform
 
 StackIt is a modern, full-stack Q&A platform similar to Stack Overflow, built with React, Node.js, Express, and MongoDB. It provides a comprehensive solution for developers to ask questions, share knowledge, and build a community around programming topics.
-
+# Working Demo
+https://dynamic-pavlova-513b70.netlify.app/
 ## 🚀 Features
 
 ### Core Functionality
