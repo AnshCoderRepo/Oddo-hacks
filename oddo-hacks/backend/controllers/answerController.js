@@ -66,8 +66,52 @@ const acceptAnswer = async (req, res) => {
   }
 };
 
+const voteAnswer = async (req, res) => {
+  const { voteType } = req.body; 
+  const answerId = req.params.answerId;
+
+  if (!['up', 'down', 'remove'].includes(voteType)) {
+    return res.status(400).json({ msg: 'Invalid vote type' });
+  }
+
+  try {
+    const answer = await Answer.findById(answerId);
+    if (!answer) return res.status(404).json({ msg: 'Answer not found' });
+
+
+    if (answer.user.toString() === req.user.id) {
+      return res.status(403).json({ msg: 'You cannot vote on your own answer' });
+    }
+
+    answer.votes = answer.votes.filter(v => v.user.toString() !== req.user.id);
+
+    if (voteType !== 'remove') {
+      answer.votes.push({ user: req.user.id, vote: voteType });
+    }
+
+    await answer.save();
+
+    const upvotes = answer.votes.filter(v => v.vote === 'up').length;
+    const downvotes = answer.votes.filter(v => v.vote === 'down').length;
+
+    res.json({
+      msg: 'Vote updated',
+      votes: {
+        upvotes,
+        downvotes,
+        total: upvotes - downvotes,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+
 module.exports = {
   postAnswer,
   getAnswersByQuestion,
-  acceptAnswer
+  acceptAnswer,
+  voteAnswer
 };
